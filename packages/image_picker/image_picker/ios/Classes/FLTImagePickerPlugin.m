@@ -192,6 +192,7 @@ static const int SOURCE_GALLERY = 1;
   PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
   switch (status) {
     case PHAuthorizationStatusNotDetermined: {
+      
       [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
         if (status == PHAuthorizationStatusAuthorized) {
           dispatch_async(dispatch_get_main_queue(), ^{
@@ -311,26 +312,8 @@ static const int SOURCE_GALLERY = 1;
     if (maxWidth != (id)[NSNull null] || maxHeight != (id)[NSNull null]) {
       image = [FLTImagePickerImageUtil scaledImage:image maxWidth:maxWidth maxHeight:maxHeight];
     }
-
-    PHAsset *originalAsset = [FLTImagePickerPhotoAssetUtil getAssetFromImagePickerInfo:info];
-    if (!originalAsset) {
-      // Image picked without an original asset (e.g. User took a photo directly)
-      [self saveImageWithPickerInfo:info image:image imageQuality:imageQuality];
-    } else {
-      __weak typeof(self) weakSelf = self;
-      [[PHImageManager defaultManager]
-          requestImageDataForAsset:originalAsset
-                           options:nil
-                     resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
-                                     UIImageOrientation orientation, NSDictionary *_Nullable info) {
-                       // maxWidth and maxHeight are used only for GIF images.
-                       [weakSelf saveImageWithOriginalImageData:imageData
-                                                          image:image
-                                                       maxWidth:maxWidth
-                                                      maxHeight:maxHeight
-                                                   imageQuality:imageQuality];
-                     }];
-    }
+    [self saveImageWithPickerInfo:info image:image imageQuality:imageQuality];
+    
   }
 }
 
