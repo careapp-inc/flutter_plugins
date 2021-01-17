@@ -68,13 +68,17 @@
       }
     }
   }
+  
+  UIImageOrientation orientation = [image imageOrientation];
 
   // Scaling the image always rotate itself based on the current imageOrientation of the original
   // Image. Set to orientationUp for the orignal image before scaling, so the scaled image doesn't
   // mess up with the pixels.
   UIImage *imageToScale = [UIImage imageWithCGImage:image.CGImage
                                               scale:1
-                                        orientation:UIImageOrientationUp];
+                                        orientation:orientation];
+  
+
 
   // The image orientation is manually set to UIImageOrientationUp which swapped the aspect ratio in
   // some scenarios. For example, when the original image has orientation left, the horizontal
@@ -85,9 +89,9 @@
       [image imageOrientation] == UIImageOrientationRight ||
       [image imageOrientation] == UIImageOrientationLeftMirrored ||
       [image imageOrientation] == UIImageOrientationRightMirrored) {
-    double temp = width;
-    width = height;
-    height = temp;
+    //double temp = width;
+    //width = height;
+    //height = temp;
   }
 
   UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, 1.0);
@@ -95,6 +99,7 @@
 
   UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
+  
   return scaledImage;
 }
 
