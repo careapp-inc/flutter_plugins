@@ -312,7 +312,7 @@ static const int SOURCE_GALLERY = 1;
     if (maxWidth != (id)[NSNull null] || maxHeight != (id)[NSNull null]) {
       image = [FLTImagePickerImageUtil scaledImage:image maxWidth:maxWidth maxHeight:maxHeight];
     }
-    [self saveImageWithPickerInfo:info image:image imageQuality:imageQuality];
+    [self saveImageWithoutMetadata:info image:image imageQuality:imageQuality];
     
   }
 }
@@ -338,6 +338,16 @@ static const int SOURCE_GALLERY = 1;
                                                           maxWidth:maxWidth
                                                          maxHeight:maxHeight
                                                       imageQuality:imageQuality];
+  [self handleSavedPath:savedPath];
+}
+
+- (void)saveImageWithoutMetadata:(NSDictionary *)info
+                          image:(UIImage *)image
+                   imageQuality:(NSNumber *)imageQuality {
+  NSString *savedPath = [FLTImagePickerPhotoAssetUtil saveImageWithPickerInfo:nil
+                                                                        image:image
+                                                                 imageQuality:imageQuality];
+  
   [self handleSavedPath:savedPath];
 }
 
