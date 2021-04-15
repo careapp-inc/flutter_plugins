@@ -66,7 +66,7 @@
 
 ## 0.6.7+13
 
-* Update documentation of `getImage()` about HEIC images.
+* Android: fixes an issue where videos could be wrongly picked with `.jpg` extension.
 
 ## 0.6.7+12
 

@@ -73,7 +73,7 @@ class FileUtils {
     String extension = null;
 
     try {
-      String imagePath = uriImage.getPath();
+
       if (uriImage.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
         final MimeTypeMap mime = MimeTypeMap.getSingleton();
         extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uriImage));
